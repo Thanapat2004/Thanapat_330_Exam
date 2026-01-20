@@ -1,0 +1,35 @@
+
+
+services:
+  service_1:
+    build: ./service_1
+    container_name: service_1_gateway
+    ports:
+      - "8001:8000"  # Expose Service 1 on localhost:8001
+    depends_on:
+      - service_2
+    networks:
+      - microservices_network
+
+  service_2:
+    build: ./service_2
+    container_name: service_2_logic
+    expose:
+      - "8000"       # Logic service runs internally on port 8000
+    depends_on:
+      - service_3
+    networks:
+      - microservices_network
+
+  service_3:
+    build: ./service_3
+    container_name: service_3_data
+    expose:
+      - "50051"      # gRPC port
+      - "8000"       # FastAPI port (optional debug)
+    networks:
+      - microservices_network
+
+networks:
+  microservices_network:
+    driver: bridge

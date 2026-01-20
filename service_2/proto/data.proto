@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package data;
+
+service DataService {
+  rpc GetData (DataRequest) returns (DataResponse);
+}
+
+message DataRequest {
+  int32 id = 1;
+}
+
+message DataResponse {
+  int32 id = 1;
+  string content = 2;
+  string author_name = 3;
+  string author_id = 4; // e.g., "330"
+}
